@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Profile | Job Platform{% endblock %}
+
+{% block content %}
+<section class="dashboard-page section-block">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-lg-4 col-xl-3">
+                {% include "includes/dashboard_sidebar.html" with current_section='profile' %}
+            </div>
+            <div class="col-lg-8 col-xl-9">
+                <div class="content-shell card-panel">
+                    <div class="section-heading mb-4">
+                        <div>
+                            <p class="eyebrow-text">Profile settings</p>
+                            <h1>Edit your {{ profile.get_role_display|lower }} profile</h1>
+                        </div>
+                    </div>
+                    <form method="post" enctype="multipart/form-data" class="form-grid" novalidate>
+                        {% csrf_token %}
+                        {% if form.non_field_errors %}
+                            <div class="form-error form-error-block">{{ form.non_field_errors|join:", " }}</div>
+                        {% endif %}
+                        {% for field in form %}
+                            {% include "includes/form_field.html" with field=field %}
+                        {% endfor %}
+                        <button type="submit" class="btn btn-brand btn-lg">Save Profile</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

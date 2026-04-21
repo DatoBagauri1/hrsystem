@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}About | Job Platform{% endblock %}
+
+{% block content %}
+<section class="page-hero page-hero-compact">
+    <div class="container">
+        <p class="eyebrow-text">About the platform</p>
+        <h1>Built for practical hiring workflows, not just demo screens.</h1>
+        <p class="page-hero-copy">
+            This project pairs classic Django architecture with a premium product feel, giving employers and job seekers a clean, reliable place to manage the entire application experience.
+        </p>
+    </div>
+</section>
+
+<section class="section-block">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-lg-4">
+                <div class="card-panel h-100">
+                    <h3>Server-rendered and maintainable</h3>
+                    <p>Django templates, forms, views, messages, and permissions keep the code approachable for students and strong enough for portfolio presentation.</p>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="card-panel h-100">
+                    <h3>Role-based access control</h3>
+                    <p>Employers can only manage their own jobs and applicants, while seekers can only access their own applications and profile actions.</p>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="card-panel h-100">
+                    <h3>Design-friendly structure</h3>
+                    <p>Templates are modular, semantic, and intentionally organized so future redesigns can evolve the look without destabilizing the backend.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

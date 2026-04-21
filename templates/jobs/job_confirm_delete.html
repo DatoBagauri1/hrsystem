@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}Delete Vacancy | Job Platform{% endblock %}
+
+{% block content %}
+<section class="section-block">
+    <div class="container">
+        <div class="confirm-card card-panel">
+            <p class="eyebrow-text">Delete vacancy</p>
+            <h1>Delete "{{ job.title }}"?</h1>
+            <p>This action removes the vacancy and its application history from the platform. This cannot be undone.</p>
+            <form method="post" class="d-flex flex-wrap gap-3 mt-4">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger btn-lg">Yes, delete vacancy</button>
+                <a href="{% url 'jobs:job-detail' job.slug %}" class="btn btn-outline-dark btn-lg">Cancel</a>
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock %}

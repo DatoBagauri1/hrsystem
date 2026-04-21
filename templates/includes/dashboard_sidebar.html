@@ -1,0 +1,17 @@
+<aside class="dashboard-sidebar card-panel">
+    <p class="eyebrow-text">{{ request.user.profile.get_role_display }}</p>
+    <h3 class="sidebar-title">{{ request.user.profile.display_name }}</h3>
+    <div class="sidebar-links">
+        {% if request.user.profile.is_employer %}
+            <a class="sidebar-link {% if current_section == 'dashboard' %}active{% endif %}" href="{% url 'accounts:employer-dashboard' %}">Overview</a>
+            <a class="sidebar-link {% if current_section == 'jobs' %}active{% endif %}" href="{% url 'jobs:my-jobs' %}">My Vacancies</a>
+            <a class="sidebar-link" href="{% url 'jobs:job-create' %}">Create Vacancy</a>
+            <a class="sidebar-link" href="{% url 'accounts:profile-edit' %}">Company Profile</a>
+        {% else %}
+            <a class="sidebar-link {% if current_section == 'dashboard' %}active{% endif %}" href="{% url 'accounts:seeker-dashboard' %}">Overview</a>
+            <a class="sidebar-link" href="{% url 'jobs:job-list' %}">Browse Jobs</a>
+            <a class="sidebar-link {% if current_section == 'applications' %}active{% endif %}" href="{% url 'applications:my-applications' %}">My Applications</a>
+            <a class="sidebar-link" href="{% url 'accounts:profile-edit' %}">Edit Profile</a>
+        {% endif %}
+    </div>
+</aside>

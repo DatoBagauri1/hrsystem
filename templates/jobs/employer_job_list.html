@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block title %}My Vacancies | Job Platform{% endblock %}
+
+{% block content %}
+<section class="dashboard-page section-block">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-lg-4 col-xl-3">
+                {% include "includes/dashboard_sidebar.html" %}
+            </div>
+            <div class="col-lg-8 col-xl-9">
+                <div class="dashboard-top">
+                    <div>
+                        <p class="eyebrow-text">Employer dashboard</p>
+                        <h1>All of your posted vacancies</h1>
+                    </div>
+                    <a href="{% url 'jobs:job-create' %}" class="btn btn-brand">Create Vacancy</a>
+                </div>
+                <div class="card-panel content-shell">
+                    {% if jobs %}
+                        <div class="table-responsive">
+                            <table class="table platform-table align-middle">
+                                <thead>
+                                    <tr>
+                                        <th>Role</th>
+                                        <th>Category</th>
+                                        <th>Status</th>
+                                        <th>Applicants</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for job in jobs %}
+                                        <tr>
+                                            <td>
+                                                <strong>{{ job.title }}</strong>
+                                                <div class="table-subtext">{{ job.location }} • {{ job.created_at|date:"M d, Y" }}</div>
+                                            </td>
+                                            <td>{{ job.get_category_display }}</td>
+                                            <td>
+                                                {% if job.is_active %}
+                                                    <span class="pill-badge badge-soft-success">Active</span>
+                                                {% else %}
+                                                    <span class="pill-badge badge-soft-secondary">Closed</span>
+                                                {% endif %}
+                                            </td>
+                                            <td>{{ job.applicant_count }}</td>
+                                            <td>
+                                                <a class="table-link" href="{% url 'jobs:job-detail' job.slug %}">View</a>
+                                                <a class="table-link" href="{% url 'jobs:job-edit' job.slug %}">Edit</a>
+                                                <a class="table-link text-danger" href="{% url 'jobs:job-delete' job.slug %}">Delete</a>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        {% include "includes/pagination.html" %}
+                    {% else %}
+                        {% url 'jobs:job-create' as create_job_url %}
+                        {% include "includes/empty_state.html" with title="No vacancies created yet" body="Create your first listing and start receiving applications inside your dashboard." action_url=create_job_url action_label="Create vacancy" %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

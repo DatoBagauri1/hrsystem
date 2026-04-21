@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+
+{% block title %}Employer Dashboard | Job Platform{% endblock %}
+
+{% block content %}
+<section class="dashboard-page section-block">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-lg-4 col-xl-3">
+                {% include "includes/dashboard_sidebar.html" %}
+            </div>
+            <div class="col-lg-8 col-xl-9">
+                <div class="dashboard-top">
+                    <div>
+                        <p class="eyebrow-text">Employer dashboard</p>
+                        <h1>Manage vacancies and review applicants.</h1>
+                    </div>
+                    <a href="{% url 'jobs:job-create' %}" class="btn btn-brand">Create Vacancy</a>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-card card-panel">
+                        <span>Total jobs posted</span>
+                        <strong>{{ stats.total_jobs }}</strong>
+                    </div>
+                    <div class="stat-card card-panel">
+                        <span>Active jobs</span>
+                        <strong>{{ stats.active_jobs }}</strong>
+                    </div>
+                    <div class="stat-card card-panel">
+                        <span>Total applications</span>
+                        <strong>{{ stats.total_applications }}</strong>
+                    </div>
+                    <div class="stat-card card-panel">
+                        <span>Shortlisted</span>
+                        <strong>{{ stats.shortlisted }}</strong>
+                    </div>
+                </div>
+                <div class="card-panel content-shell mt-4">
+                    <div class="section-heading">
+                        <div>
+                            <p class="eyebrow-text">My latest vacancies</p>
+                            <h2>Open positions</h2>
+                        </div>
+                        <a href="{% url 'jobs:my-jobs' %}" class="btn btn-outline-dark">View all</a>
+                    </div>
+                    {% if jobs %}
+                        <div class="table-responsive">
+                            <table class="table platform-table align-middle">
+                                <thead>
+                                    <tr>
+                                        <th>Role</th>
+                                        <th>Status</th>
+                                        <th>Applicants</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for job in jobs %}
+                                        <tr>
+                                            <td>
+                                                <strong>{{ job.title }}</strong>
+                                                <div class="table-subtext">{{ job.location }} • {{ job.get_job_type_display }}</div>
+                                            </td>
+                                            <td>
+                                                {% if job.is_active %}
+                                                    <span class="pill-badge badge-soft-success">Active</span>
+                                                {% else %}
+                                                    <span class="pill-badge badge-soft-secondary">Closed</span>
+                                                {% endif %}
+                                            </td>
+                                            <td>{{ job.applicant_count }}</td>
+                                            <td>
+                                                <a href="{% url 'jobs:job-detail' job.slug %}" class="table-link">View</a>
+                                                <a href="{% url 'jobs:job-applicants' job.slug %}" class="table-link">Applicants</a>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% else %}
+                        {% url 'jobs:job-create' as create_job_url %}
+                        {% include "includes/empty_state.html" with title="No vacancies yet" body="Create your first role to start receiving applications through the platform." action_url=create_job_url action_label="Create vacancy" %}
+                    {% endif %}
+                </div>
+                <div class="card-panel content-shell mt-4">
+                    <div class="section-heading">
+                        <div>
+                            <p class="eyebrow-text">Recent applications</p>
+                            <h2>Latest candidate activity</h2>
+                        </div>
+                    </div>
+                    {% if recent_applications %}
+                        <div class="table-responsive">
+                            <table class="table platform-table align-middle">
+                                <thead>
+                                    <tr>
+                                        <th>Applicant</th>
+                                        <th>Job</th>
+                                        <th>Status</th>
+                                        <th>Submitted</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for application in recent_applications %}
+                                        <tr>
+                                            <td>
+                                                <a class="table-link fw-semibold" href="{% url 'applications:application-detail' application.pk %}">
+                                                    {{ application.full_name }}
+                                                </a>
+                                                <div class="table-subtext">{{ application.email }}</div>
+                                            </td>
+                                            <td>{{ application.job.title }}</td>
+                                            <td><span class="pill-badge {{ application.status_badge_class }}">{{ application.get_status_display }}</span></td>
+                                            <td>{{ application.created_at|date:"M d, Y" }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% else %}
+                        {% include "includes/empty_state.html" with title="No applications yet" body="Applications for your vacancies will appear here as candidates apply." action_url=None action_label=None %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}{{ employer_user.profile.display_name }} | Employer Profile{% endblock %}
+
+{% block content %}
+<section class="page-hero page-hero-compact">
+    <div class="container">
+        <p class="eyebrow-text">Employer profile</p>
+        <h1>{{ employer_user.profile.display_name }}</h1>
+        <p class="page-hero-copy">{{ employer_user.profile.company_description }}</p>
+        <div class="meta-cluster">
+            {% if employer_user.profile.location %}<span>{{ employer_user.profile.location }}</span>{% endif %}
+            {% if employer_user.profile.contact_email %}<span>{{ employer_user.profile.contact_email }}</span>{% endif %}
+            {% if employer_user.profile.website %}<span><a href="{{ employer_user.profile.website }}" target="_blank" rel="noopener">Website</a></span>{% endif %}
+        </div>
+    </div>
+</section>
+<section class="section-block">
+    <div class="container">
+        <div class="section-heading">
+            <div>
+                <p class="eyebrow-text">Open roles</p>
+                <h2>Active vacancies from this employer</h2>
+            </div>
+        </div>
+        <div class="row g-4">
+            {% for job in jobs %}
+                <div class="col-md-6">
+                    {% include "includes/job_card.html" %}
+                </div>
+            {% empty %}
+                <div class="col-12">
+                    {% include "includes/empty_state.html" with title="No active roles" body="This employer does not have any public vacancies right now." action_url=None action_label=None %}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,29 @@
+<footer class="site-footer">
+    <div class="container">
+        <div class="row g-4 align-items-start">
+            <div class="col-lg-5">
+                <h3 class="footer-title">JobPlatform</h3>
+                <p class="footer-copy">
+                    A polished employment platform built with traditional Django, designed for real hiring workflows and easy future redesigns.
+                </p>
+            </div>
+            <div class="col-sm-6 col-lg-3">
+                <h4 class="footer-heading">Explore</h4>
+                <ul class="footer-links">
+                    <li><a href="{% url 'core:home' %}">Home</a></li>
+                    <li><a href="{% url 'jobs:job-list' %}">Jobs</a></li>
+                    <li><a href="{% url 'core:about' %}">About</a></li>
+                </ul>
+            </div>
+            <div class="col-sm-6 col-lg-4">
+                <h4 class="footer-heading">For teams and candidates</h4>
+                <p class="footer-copy">
+                    Employers can manage vacancies and applications from one dashboard, while seekers get a streamlined application history and profile workflow.
+                </p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>&copy; {% now "Y" %} JobPlatform. Built with Django templates, forms, views, and models.</span>
+        </div>
+    </div>
+</footer>

@@ -1,0 +1,31 @@
+<article class="job-card card-panel">
+    <div class="job-card-top">
+        <div>
+            <p class="eyebrow-text">{{ job.get_category_display }}</p>
+            <h3 class="job-card-title">
+                <a href="{{ job.get_absolute_url }}">{{ job.title }}</a>
+            </h3>
+        </div>
+        {% if job.is_active %}
+            <span class="pill-badge badge-soft-success">Active</span>
+        {% else %}
+            <span class="pill-badge badge-soft-secondary">Closed</span>
+        {% endif %}
+    </div>
+    <div class="job-meta-grid">
+        <span>{{ job.company_name }}</span>
+        <span>{{ job.location }}</span>
+        <span>{{ job.get_job_type_display }}</span>
+        <span>{{ job.get_experience_level_display }}</span>
+    </div>
+    <p class="job-card-copy">{{ job.description|truncatechars:140 }}</p>
+    <div class="job-card-bottom">
+        <div>
+            <div class="job-salary">{{ job.salary_display }}</div>
+            <small class="text-muted">Posted {{ job.created_at|date:"M d, Y" }}</small>
+        </div>
+        {% if request.user.is_authenticated and request.user == job.employer %}
+            <span class="pill-badge badge-soft-info">{{ job.application_count }} applicants</span>
+        {% endif %}
+    </div>
+</article>

@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block title %}Application Detail | Job Platform{% endblock %}
+
+{% block content %}
+<section class="section-block">
+    <div class="container">
+        <div class="dashboard-top mb-4">
+            <div>
+                <p class="eyebrow-text">Application detail</p>
+                <h1>{{ application.job.title }}</h1>
+                <p class="page-hero-copy">{{ application.job.company_name }} - Submitted {{ application.created_at|date:"M d, Y" }}</p>
+            </div>
+            {% if request.user.profile.is_employer %}
+                <a href="{% url 'jobs:job-applicants' application.job.slug %}" class="btn btn-outline-dark">Back to Applicants</a>
+            {% else %}
+                <a href="{% url 'applications:my-applications' %}" class="btn btn-outline-dark">Back to Applications</a>
+            {% endif %}
+        </div>
+
+        <div class="row g-4">
+            <div class="col-lg-8">
+                <div class="card-panel content-shell mb-4">
+                    <h2>Candidate information</h2>
+                    <div class="detail-grid">
+                        <div><span>Name</span><strong>{{ application.full_name }}</strong></div>
+                        <div><span>Email</span><strong>{{ application.email }}</strong></div>
+                        <div><span>Phone</span><strong>{{ application.phone }}</strong></div>
+                        <div><span>Status</span><strong>{{ application.get_status_display }}</strong></div>
+                    </div>
+                    {% if application.portfolio_link or application.linkedin_link %}
+                        <div class="meta-cluster mt-4">
+                            {% if application.portfolio_link %}<a href="{{ application.portfolio_link }}" target="_blank" rel="noopener">Portfolio</a>{% endif %}
+                            {% if application.linkedin_link %}<a href="{{ application.linkedin_link }}" target="_blank" rel="noopener">LinkedIn</a>{% endif %}
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="card-panel content-shell">
+                    <h2>Cover letter</h2>
+                    <p>{{ application.cover_letter|linebreaks }}</p>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="card-panel sticky-panel">
+                    <h3>Application status</h3>
+                    <p><span class="pill-badge {{ application.status_badge_class }}">{{ application.get_status_display }}</span></p>
+                    {% if request.user.profile.is_employer and status_form %}
+                        <form method="post" action="{% url 'applications:application-status-update' application.pk %}" class="form-grid mt-3">
+                            {% csrf_token %}
+                            {% include "includes/form_field.html" with field=status_form.status %}
+                            <button type="submit" class="btn btn-brand w-100">Update Status</button>
+                        </form>
+                    {% endif %}
+                    {% if application.effective_cv %}
+                        <a href="{{ application.effective_cv.url }}" class="btn btn-outline-dark w-100 mt-3" target="_blank" rel="noopener">Open CV / Resume</a>
+                    {% endif %}
+                    {% if request.user.profile.is_employer %}
+                        <hr>
+                        <h3>Candidate summary</h3>
+                        <p class="mb-1 fw-semibold">{{ application.applicant.profile.display_name }}</p>
+                        <p class="text-muted">{{ application.applicant.profile.city }}</p>
+                        {% if application.applicant.profile.skills %}
+                            <p class="small text-muted mb-0">{{ application.applicant.profile.skills }}</p>
+                        {% endif %}
+                    {% else %}
+                        <hr>
+                        <h3>Employer</h3>
+                        <p class="mb-1 fw-semibold">{{ application.job.employer.profile.display_name }}</p>
+                        <p class="text-muted">{{ application.job.employer.profile.location }}</p>
+                        <a href="{% url 'accounts:employer-public-profile' application.job.employer.username %}" class="btn btn-outline-dark w-100">
+                            View Employer Profile
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

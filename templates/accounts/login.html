@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}Login | Job Platform{% endblock %}
+
+{% block content %}
+<section class="auth-shell">
+    <div class="container">
+        <div class="auth-card card-panel">
+            <div class="auth-copy">
+                <p class="eyebrow-text">Welcome back</p>
+                <h1>Sign in to manage your hiring workflow.</h1>
+                <p>Employers can review applicants and vacancies, while seekers can track applications and update resumes.</p>
+            </div>
+            <form method="post" novalidate class="form-grid">
+                {% csrf_token %}
+                {% if form.non_field_errors %}
+                    <div class="form-error form-error-block">{{ form.non_field_errors|join:", " }}</div>
+                {% endif %}
+                {% include "includes/form_field.html" with field=form.username %}
+                {% include "includes/form_field.html" with field=form.password %}
+                <button type="submit" class="btn btn-brand btn-lg w-100">Sign in</button>
+            </form>
+            <p class="auth-note">Need an account? <a href="{% url 'accounts:register' %}">Register here</a>.</p>
+        </div>
+    </div>
+</section>
+{% endblock %}

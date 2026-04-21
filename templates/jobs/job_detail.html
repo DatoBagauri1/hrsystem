@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block title %}{{ job.title }} | Job Platform{% endblock %}
+
+{% block content %}
+<section class="page-hero page-hero-compact">
+    <div class="container">
+        <div class="job-detail-header">
+            <div>
+                <p class="eyebrow-text">{{ job.get_category_display }}</p>
+                <h1>{{ job.title }}</h1>
+                <div class="meta-cluster">
+                    <span>{{ job.company_name }}</span>
+                    <span>{{ job.location }}</span>
+                    <span>{{ job.get_job_type_display }}</span>
+                    <span>{{ job.get_experience_level_display }}</span>
+                </div>
+            </div>
+            <div class="job-detail-actions">
+                {% if request.user.is_authenticated and request.user == job.employer %}
+                    <a href="{% url 'jobs:job-edit' job.slug %}" class="btn btn-brand">Edit Vacancy</a>
+                    <a href="{% url 'jobs:job-applicants' job.slug %}" class="btn btn-outline-dark">View Applicants</a>
+                {% elif request.user.is_authenticated and request.user.profile.is_seeker %}
+                    {% if has_applied %}
+                        <button class="btn btn-outline-dark" disabled>Already Applied</button>
+                    {% else %}
+                        <a href="{% url 'applications:apply' job.slug %}" class="btn btn-brand">Apply Now</a>
+                    {% endif %}
+                {% else %}
+                    <a href="{% url 'accounts:login' %}?next={% url 'applications:apply' job.slug %}" class="btn btn-brand">Login to Apply</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section-block">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-lg-8">
+                <div class="card-panel content-shell mb-4">
+                    <h2>Role overview</h2>
+                    <p>{{ job.description|linebreaks }}</p>
+                </div>
+                <div class="card-panel content-shell mb-4">
+                    <h2>Requirements</h2>
+                    <p>{{ job.requirements|linebreaks }}</p>
+                </div>
+                <div class="card-panel content-shell mb-4">
+                    <h2>Responsibilities</h2>
+                    <p>{{ job.responsibilities|linebreaks }}</p>
+                </div>
+                {% if job.benefits %}
+                    <div class="card-panel content-shell">
+                        <h2>Benefits</h2>
+                        <p>{{ job.benefits|linebreaks }}</p>
+                    </div>
+                {% endif %}
+            </div>
+            <div class="col-lg-4">
+                <div class="card-panel sticky-panel">
+                    <h3>Quick details</h3>
+                    <ul class="detail-list">
+                        <li><span>Salary</span><strong>{{ job.salary_display }}</strong></li>
+                        <li><span>Status</span><strong>{% if job.is_active %}Active{% else %}Closed{% endif %}</strong></li>
+                        <li><span>Deadline</span><strong>{{ job.application_deadline|default:"Open until filled" }}</strong></li>
+                        <li><span>Posted</span><strong>{{ job.created_at|date:"M d, Y" }}</strong></li>
+                    </ul>
+                    <hr>
+                    <h3>Employer</h3>
+                    <p class="mb-1 fw-semibold">{{ job.employer.profile.display_name }}</p>
+                    <p class="text-muted">{{ job.employer.profile.location }}</p>
+                    <a href="{% url 'accounts:employer-public-profile' job.employer.username %}" class="btn btn-outline-dark w-100">
+                        View Employer Profile
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

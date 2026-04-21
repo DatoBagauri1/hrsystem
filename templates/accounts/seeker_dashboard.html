@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+
+{% block title %}Seeker Dashboard | Job Platform{% endblock %}
+
+{% block content %}
+<section class="dashboard-page section-block">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-lg-4 col-xl-3">
+                {% include "includes/dashboard_sidebar.html" %}
+            </div>
+            <div class="col-lg-8 col-xl-9">
+                <div class="dashboard-top">
+                    <div>
+                        <p class="eyebrow-text">Candidate dashboard</p>
+                        <h1>Track your applications and discover fresh roles.</h1>
+                    </div>
+                    <a href="{% url 'jobs:job-list' %}" class="btn btn-brand">Browse Jobs</a>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-card card-panel">
+                        <span>Total applications</span>
+                        <strong>{{ stats.total_sent }}</strong>
+                    </div>
+                    <div class="stat-card card-panel">
+                        <span>Pending</span>
+                        <strong>{{ stats.pending }}</strong>
+                    </div>
+                    <div class="stat-card card-panel">
+                        <span>Shortlisted</span>
+                        <strong>{{ stats.shortlisted }}</strong>
+                    </div>
+                    <div class="stat-card card-panel">
+                        <span>Accepted</span>
+                        <strong>{{ stats.accepted }}</strong>
+                    </div>
+                </div>
+                <div class="card-panel content-shell mt-4">
+                    <div class="section-heading">
+                        <div>
+                            <p class="eyebrow-text">Recent applications</p>
+                            <h2>Your latest submissions</h2>
+                        </div>
+                        <a href="{% url 'applications:my-applications' %}" class="btn btn-outline-dark">View all</a>
+                    </div>
+                    {% if applications %}
+                        <div class="table-responsive">
+                            <table class="table platform-table align-middle">
+                                <thead>
+                                    <tr>
+                                        <th>Job</th>
+                                        <th>Status</th>
+                                        <th>Applied</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for application in applications %}
+                                        <tr>
+                                            <td>
+                                                <a class="table-link fw-semibold" href="{% url 'applications:application-detail' application.pk %}">
+                                                    {{ application.job.title }}
+                                                </a>
+                                                <div class="table-subtext">{{ application.job.company_name }}</div>
+                                            </td>
+                                            <td><span class="pill-badge {{ application.status_badge_class }}">{{ application.get_status_display }}</span></td>
+                                            <td>{{ application.created_at|date:"M d, Y" }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% else %}
+                        {% url 'jobs:job-list' as job_list_url %}
+                        {% include "includes/empty_state.html" with title="No applications yet" body="Start exploring active vacancies and submit your first application." action_url=job_list_url action_label="Browse jobs" %}
+                    {% endif %}
+                </div>
+                <div class="mt-4">
+                    <div class="section-heading mb-3">
+                        <div>
+                            <p class="eyebrow-text">Latest jobs</p>
+                            <h2>Recommended opportunities</h2>
+                        </div>
+                    </div>
+                    <div class="row g-4">
+                        {% for job in latest_jobs %}
+                            <div class="col-md-6">
+                                {% include "includes/job_card.html" %}
+                            </div>
+                        {% empty %}
+                            <div class="col-12">
+                                {% include "includes/empty_state.html" with title="You're all caught up" body="There are no new active vacancies that you haven't applied to yet." action_url=None action_label=None %}
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

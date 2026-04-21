@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block title %}My Applications | Job Platform{% endblock %}
+
+{% block content %}
+<section class="dashboard-page section-block">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-lg-4 col-xl-3">
+                {% include "includes/dashboard_sidebar.html" %}
+            </div>
+            <div class="col-lg-8 col-xl-9">
+                <div class="dashboard-top">
+                    <div>
+                        <p class="eyebrow-text">My applications</p>
+                        <h1>Track every application in one place</h1>
+                    </div>
+                    <a href="{% url 'jobs:job-list' %}" class="btn btn-brand">Find More Jobs</a>
+                </div>
+                <div class="card-panel content-shell">
+                    {% if applications %}
+                        <div class="table-responsive">
+                            <table class="table platform-table align-middle">
+                                <thead>
+                                    <tr>
+                                        <th>Role</th>
+                                        <th>Company</th>
+                                        <th>Status</th>
+                                        <th>Applied</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for application in applications %}
+                                        <tr>
+                                            <td>
+                                                <a class="table-link fw-semibold" href="{% url 'applications:application-detail' application.pk %}">
+                                                    {{ application.job.title }}
+                                                </a>
+                                            </td>
+                                            <td>{{ application.job.company_name }}</td>
+                                            <td><span class="pill-badge {{ application.status_badge_class }}">{{ application.get_status_display }}</span></td>
+                                            <td>{{ application.created_at|date:"M d, Y" }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        {% include "includes/pagination.html" %}
+                    {% else %}
+                        {% url 'jobs:job-list' as job_list_url %}
+                        {% include "includes/empty_state.html" with title="No submitted applications" body="When you apply to vacancies, they will appear here with live status updates from employers." action_url=job_list_url action_label="Browse jobs" %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

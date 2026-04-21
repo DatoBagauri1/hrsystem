@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}Register | Job Platform{% endblock %}
+
+{% block content %}
+<section class="auth-shell">
+    <div class="container">
+        <div class="auth-card card-panel">
+            <div class="auth-copy">
+                <p class="eyebrow-text">Create an account</p>
+                <h1>Join as an employer or job seeker.</h1>
+                <p>Start with a secure account, then complete your company or candidate profile from the dashboard.</p>
+            </div>
+            <form method="post" novalidate class="form-grid">
+                {% csrf_token %}
+                {% if form.non_field_errors %}
+                    <div class="form-error form-error-block">{{ form.non_field_errors|join:", " }}</div>
+                {% endif %}
+                {% include "includes/form_field.html" with field=form.username %}
+                {% include "includes/form_field.html" with field=form.email %}
+                {% include "includes/form_field.html" with field=form.role %}
+                {% include "includes/form_field.html" with field=form.display_name %}
+                {% include "includes/form_field.html" with field=form.password1 %}
+                {% include "includes/form_field.html" with field=form.password2 %}
+                <button type="submit" class="btn btn-brand btn-lg w-100">Create account</button>
+            </form>
+            <p class="auth-note">Already registered? <a href="{% url 'accounts:login' %}">Sign in here</a>.</p>
+        </div>
+    </div>
+</section>
+{% endblock %}

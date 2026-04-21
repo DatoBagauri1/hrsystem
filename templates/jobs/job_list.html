@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% block title %}Browse Jobs | Job Platform{% endblock %}
+
+{% block content %}
+<section class="page-hero page-hero-compact">
+    <div class="container">
+        <p class="eyebrow-text">Job search</p>
+        <h1>Find active opportunities that match your next move.</h1>
+        <p class="page-hero-copy">Search by keyword, filter by category, and sort by salary to narrow the roles that fit your goals.</p>
+    </div>
+</section>
+
+<section class="section-block">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-lg-4 col-xl-3">
+                <div class="card-panel filter-panel">
+                    <h2 class="h5 mb-3">Filter jobs</h2>
+                    <form method="get" class="filter-form">
+                        <div class="form-field">
+                            <label class="form-label" for="q">Keyword</label>
+                            <input type="text" class="form-control" id="q" name="q" value="{{ selected.q }}" placeholder="Title, company, or location">
+                        </div>
+                        <div class="form-field">
+                            <label class="form-label" for="category">Category</label>
+                            <select class="form-select" id="category" name="category">
+                                <option value="">All categories</option>
+                                {% for value, label in categories %}
+                                    <option value="{{ value }}" {% if selected.category == value %}selected{% endif %}>{{ label }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-field">
+                            <label class="form-label" for="job_type">Job type</label>
+                            <select class="form-select" id="job_type" name="job_type">
+                                <option value="">All types</option>
+                                {% for value, label in job_types %}
+                                    <option value="{{ value }}" {% if selected.job_type == value %}selected{% endif %}>{{ label }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-field">
+                            <label class="form-label" for="experience_level">Experience</label>
+                            <select class="form-select" id="experience_level" name="experience_level">
+                                <option value="">All levels</option>
+                                {% for value, label in experience_levels %}
+                                    <option value="{{ value }}" {% if selected.experience_level == value %}selected{% endif %}>{{ label }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-field">
+                            <label class="form-label" for="salary_sort">Salary sort</label>
+                            <select class="form-select" id="salary_sort" name="salary_sort">
+                                <option value="">Newest first</option>
+                                <option value="salary_asc" {% if selected.salary_sort == 'salary_asc' %}selected{% endif %}>Salary low to high</option>
+                                <option value="salary_desc" {% if selected.salary_sort == 'salary_desc' %}selected{% endif %}>Salary high to low</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-brand w-100">Apply Filters</button>
+                    </form>
+                </div>
+            </div>
+            <div class="col-lg-8 col-xl-9">
+                <div class="section-heading">
+                    <div>
+                        <p class="eyebrow-text">Results</p>
+                        <h2>{{ page_obj.paginator.count }} role{{ page_obj.paginator.count|pluralize }} available</h2>
+                    </div>
+                </div>
+                <div class="row g-4">
+                    {% for job in jobs %}
+                        <div class="col-md-6">
+                            {% include "includes/job_card.html" %}
+                        </div>
+                    {% empty %}
+                        <div class="col-12">
+                            {% include "includes/empty_state.html" with title="No jobs matched your filters" body="Try broadening the search terms or clearing one of the filter groups." action_url=None action_label=None %}
+                        </div>
+                    {% endfor %}
+                </div>
+                {% include "includes/pagination.html" %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

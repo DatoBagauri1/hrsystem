@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}Applicants for {{ job.title }} | Job Platform{% endblock %}
+
+{% block content %}
+<section class="section-block">
+    <div class="container">
+        <div class="dashboard-top mb-4">
+            <div>
+                <p class="eyebrow-text">Applicants</p>
+                <h1>{{ job.title }}</h1>
+                <p class="page-hero-copy">{{ applications|length }} applicant{{ applications|length|pluralize }} on this page for {{ job.company_name }}.</p>
+            </div>
+            <a href="{% url 'jobs:job-detail' job.slug %}" class="btn btn-outline-dark">Back to Vacancy</a>
+        </div>
+        <div class="card-panel content-shell">
+            {% if applications %}
+                <div class="table-responsive">
+                    <table class="table platform-table align-middle">
+                        <thead>
+                            <tr>
+                                <th>Applicant</th>
+                                <th>Contact</th>
+                                <th>Status</th>
+                                <th>Submitted</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for application in applications %}
+                                <tr>
+                                    <td>
+                                        <strong>{{ application.full_name }}</strong>
+                                        <div class="table-subtext">{{ application.applicant.profile.city }}</div>
+                                    </td>
+                                    <td>
+                                        <div>{{ application.email }}</div>
+                                        <div class="table-subtext">{{ application.phone }}</div>
+                                    </td>
+                                    <td><span class="pill-badge {{ application.status_badge_class }}">{{ application.get_status_display }}</span></td>
+                                    <td>{{ application.created_at|date:"M d, Y" }}</td>
+                                    <td><a class="table-link" href="{% url 'applications:application-detail' application.pk %}">Review</a></td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% include "includes/pagination.html" %}
+            {% else %}
+                {% include "includes/empty_state.html" with title="No applicants yet" body="Candidate submissions for this vacancy will appear here." action_url=None action_label=None %}
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% endblock %}
