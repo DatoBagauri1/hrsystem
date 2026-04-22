@@ -3,19 +3,26 @@
 {% block title %}Browse Jobs | Job Platform{% endblock %}
 
 {% block content %}
-<section class="page-hero page-hero-compact">
+<section class="page-banner" style="background-image: linear-gradient(130deg, rgba(15, 23, 42, 0.84), rgba(37, 99, 235, 0.72)), url('https://source.unsplash.com/1600x900/?coding,workspace');">
     <div class="container">
-        <p class="eyebrow-text">Job search</p>
-        <h1>Find active opportunities that match your next move.</h1>
-        <p class="page-hero-copy">Search by keyword, filter by category, and sort by salary to narrow the roles that fit your goals.</p>
+        <div class="page-banner-content">
+            <p class="eyebrow-text text-white-50">Job search</p>
+            <h1 class="text-white">Find active opportunities that match your next move.</h1>
+            <p class="page-hero-copy text-white-50">Search by keyword, filter by category, and sort by salary to narrow the roles that fit your goals.</p>
+            <div class="banner-badges">
+                <span>{{ page_obj.paginator.count }} curated role{{ page_obj.paginator.count|pluralize }}</span>
+                <span>Premium employer profiles</span>
+                <span>Modern application flow</span>
+            </div>
+        </div>
     </div>
 </section>
 
 <section class="section-block">
     <div class="container">
-        <div class="row g-4">
-            <div class="col-lg-4 col-xl-3">
-                <div class="card-panel filter-panel">
+        <div class="listing-layout premium-listing-layout">
+            <div>
+                <div class="card-panel filter-panel sticky-filter">
                     <h2 class="h5 mb-3">Filter jobs</h2>
                     <form method="get" class="filter-form">
                         <div class="form-field">
@@ -60,13 +67,20 @@
                         <button type="submit" class="btn btn-brand w-100">Apply Filters</button>
                     </form>
                 </div>
+                <div class="card-panel listing-aside-banner" style="background-image: linear-gradient(180deg, rgba(15, 23, 42, 0.10), rgba(15, 23, 42, 0.80)), url('https://source.unsplash.com/800x600/?teamwork,office');">
+                    <span class="listing-aside-pill">Career growth</span>
+                    <h3>Sharper search. Better context. Faster decisions.</h3>
+                    <p>Every listing is designed to surface the details candidates actually need before they apply.</p>
+                </div>
             </div>
-            <div class="col-lg-8 col-xl-9">
-                <div class="section-heading">
+            <div class="listing-main">
+                <div class="results-toolbar">
                     <div>
                         <p class="eyebrow-text">Results</p>
                         <h2>{{ page_obj.paginator.count }} role{{ page_obj.paginator.count|pluralize }} available</h2>
+                        <p class="page-hero-copy mb-0">Premium cards, clearer metadata, and a more polished browse experience.</p>
                     </div>
+                    <a href="{% url 'accounts:register' %}" class="btn btn-outline-dark">Create account</a>
                 </div>
                 <div class="row g-4">
                     {% for job in jobs %}

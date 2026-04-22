@@ -3,24 +3,24 @@
 {% block title %}Home | Job Platform{% endblock %}
 
 {% block content %}
-<section class="hero-section">
+<section class="hero-immersive" style="background-image: linear-gradient(125deg, rgba(15, 23, 42, 0.86), rgba(30, 64, 175, 0.68)), url('https://source.unsplash.com/1600x900/?office,startup');">
     <div class="container">
-        <div class="row align-items-center g-5">
-            <div class="col-lg-6">
-                <p class="eyebrow-text">Modern hiring, traditional Django</p>
-                <h1 class="hero-title">A premium employment platform for ambitious teams and standout candidates.</h1>
-                <p class="hero-copy">
-                    Post roles, review applicants, track hiring progress, and help job seekers move through a polished, transparent application journey.
+        <div class="hero-immersive-grid">
+            <div class="hero-copy-panel">
+                <p class="eyebrow-text text-white-50">Modern hiring, premium execution</p>
+                <h1 class="hero-title text-white">A polished SaaS hiring platform for standout teams and ambitious candidates.</h1>
+                <p class="hero-copy hero-copy-light">
+                    Post roles, review applicants, track hiring progress, and guide job seekers through a cleaner, more confident application journey.
                 </p>
-                <div class="hero-actions">
+                <div class="hero-actions hero-actions-spacious">
                     <a href="{% url 'jobs:job-list' %}" class="btn btn-brand btn-lg">Explore Opportunities</a>
                     {% if request.user.is_authenticated and request.user.profile.is_employer %}
-                        <a href="{% url 'jobs:job-create' %}" class="btn btn-outline-dark btn-lg">Post a Vacancy</a>
+                        <a href="{% url 'jobs:job-create' %}" class="btn btn-outline-light btn-lg">Post a Vacancy</a>
                     {% else %}
-                        <a href="{% url 'accounts:register' %}" class="btn btn-outline-dark btn-lg">Create an Account</a>
+                        <a href="{% url 'accounts:register' %}" class="btn btn-outline-light btn-lg">Create an Account</a>
                     {% endif %}
                 </div>
-                <div class="hero-stats-grid">
+                <div class="hero-stats-grid premium-hero-stats">
                     <div class="hero-stat">
                         <strong>{{ stats.active_jobs }}</strong>
                         <span>Active jobs</span>
@@ -35,30 +35,28 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-6">
-                <div class="hero-panel card-panel">
-                    <div class="hero-panel-header">
+            <div class="hero-preview-card">
+                <div class="hero-preview-surface">
+                    <div class="hero-preview-top">
                         <span class="pill-badge badge-soft-primary">Hiring dashboard</span>
-                        <span class="text-muted">Built for clarity</span>
+                        <span class="preview-muted">Live activity</span>
                     </div>
-                    <div class="metric-stack">
-                        <div class="metric-card metric-card-primary">
-                            <span>Applications reviewed</span>
-                            <strong>1,284</strong>
-                            <small>Faster decision-making with clear applicant pipelines</small>
+                    <div class="hero-preview-metric">
+                        <span>Applications reviewed</span>
+                        <strong>1,284</strong>
+                        <small>Faster decisions with cleaner applicant pipelines and stronger presentation.</small>
+                    </div>
+                    <div class="hero-preview-grid">
+                        <div class="hero-mini-card">
+                            <span>Average response</span>
+                            <strong>36 hrs</strong>
                         </div>
-                        <div class="metric-row">
-                            <div class="metric-card">
-                                <span>Average response</span>
-                                <strong>36 hrs</strong>
-                            </div>
-                            <div class="metric-card">
-                                <span>Placement rate</span>
-                                <strong>{{ stats.placements }}</strong>
-                            </div>
+                        <div class="hero-mini-card">
+                            <span>Placements</span>
+                            <strong>{{ stats.placements }}</strong>
                         </div>
                     </div>
-                    <div class="trusted-strip">
+                    <div class="trusted-strip trusted-strip-home">
                         {% for company in trusted_companies %}
                             <span>{{ company }}</span>
                         {% endfor %}
@@ -69,7 +67,7 @@
     </div>
 </section>
 
-<section class="section-block">
+<section class="section-block section-overlap">
     <div class="container">
         <div class="section-heading">
             <div>
@@ -81,9 +79,12 @@
         <div class="row g-4">
             {% for title, copy in category_cards %}
                 <div class="col-md-6 col-xl-4">
-                    <div class="card-panel category-card h-100">
-                        <h3>{{ title }}</h3>
-                        <p>{{ copy }}</p>
+                    <div class="category-card h-100" style="background-image: linear-gradient(180deg, rgba(15, 23, 42, 0.10), rgba(15, 23, 42, 0.76)), url('https://source.unsplash.com/800x600/?{{ title|urlencode }},startup');">
+                        <div class="category-card-inner">
+                            <span class="category-card-pill">Curated track</span>
+                            <h3>{{ title }}</h3>
+                            <p>{{ copy }}</p>
+                        </div>
                     </div>
                 </div>
             {% endfor %}
@@ -91,12 +92,13 @@
     </div>
 </section>
 
-<section class="section-block section-muted">
+<section class="section-block">
     <div class="container">
         <div class="section-heading">
             <div>
                 <p class="eyebrow-text">Featured jobs</p>
                 <h2>Latest roles from active employers</h2>
+                <p class="page-hero-copy mb-0">Discover better presented opportunities with cleaner structure and faster-read context.</p>
             </div>
         </div>
         <div class="row g-4">
@@ -113,7 +115,7 @@
     </div>
 </section>
 
-<section class="section-block">
+<section class="section-block section-muted">
     <div class="container">
         <div class="row g-4">
             {% for item in testimonials %}
@@ -127,6 +129,26 @@
                     </div>
                 </div>
             {% endfor %}
+        </div>
+    </div>
+</section>
+
+<section class="section-block">
+    <div class="container">
+        <div class="cta-banner" style="background-image: linear-gradient(135deg, rgba(37, 99, 235, 0.86), rgba(15, 23, 42, 0.88)), url('https://source.unsplash.com/1600x900/?coding,teamwork');">
+            <div>
+                <p class="eyebrow-text text-white-50">Built for momentum</p>
+                <h2>Make your hiring flow feel like a real startup product.</h2>
+                <p>From discovery to application review, every screen is designed to feel fast, clear, and premium.</p>
+            </div>
+            <div class="hero-actions">
+                <a href="{% url 'jobs:job-list' %}" class="btn btn-light btn-lg">Browse active roles</a>
+                {% if request.user.is_authenticated and request.user.profile.is_employer %}
+                    <a href="{% url 'jobs:job-create' %}" class="btn btn-outline-light btn-lg">Launch a vacancy</a>
+                {% else %}
+                    <a href="{% url 'accounts:register' %}" class="btn btn-outline-light btn-lg">Join the platform</a>
+                {% endif %}
+            </div>
         </div>
     </div>
 </section>

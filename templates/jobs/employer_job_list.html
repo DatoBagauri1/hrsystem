@@ -7,15 +7,16 @@
     <div class="container">
         <div class="row g-4">
             <div class="col-lg-4 col-xl-3">
-                {% include "includes/dashboard_sidebar.html" %}
+                {% include "includes/dashboard_sidebar.html" with current_section='jobs' %}
             </div>
             <div class="col-lg-8 col-xl-9">
-                <div class="dashboard-top">
+                <div class="dashboard-hero" style="background-image: linear-gradient(125deg, rgba(15, 23, 42, 0.84), rgba(37, 99, 235, 0.76)), url('https://source.unsplash.com/1600x900/?office,recruitment');">
                     <div>
-                        <p class="eyebrow-text">Employer dashboard</p>
-                        <h1>All of your posted vacancies</h1>
+                        <p class="eyebrow-text text-white-50">Employer dashboard</p>
+                        <h1 class="text-white">All of your posted vacancies</h1>
+                        <p class="page-hero-copy text-white-50 mb-0">Keep every open role, category, and applicant count organized in one premium workspace.</p>
                     </div>
-                    <a href="{% url 'jobs:job-create' %}" class="btn btn-brand">Create Vacancy</a>
+                    <a href="{% url 'jobs:job-create' %}" class="btn btn-light">Create Vacancy</a>
                 </div>
                 <div class="card-panel content-shell">
                     {% if jobs %}
@@ -35,7 +36,7 @@
                                         <tr>
                                             <td>
                                                 <strong>{{ job.title }}</strong>
-                                                <div class="table-subtext">{{ job.location }} • {{ job.created_at|date:"M d, Y" }}</div>
+                                                <div class="table-subtext">{{ job.location }} &middot; {{ job.created_at|date:"M d, Y" }}</div>
                                             </td>
                                             <td>{{ job.get_category_display }}</td>
                                             <td>

@@ -3,15 +3,19 @@
 {% block title %}{{ employer_user.profile.display_name }} | Employer Profile{% endblock %}
 
 {% block content %}
-<section class="page-hero page-hero-compact">
+<section class="detail-banner" style="background-image: linear-gradient(130deg, rgba(15, 23, 42, 0.86), rgba(37, 99, 235, 0.68)), url('https://source.unsplash.com/1600x900/?teamwork,office');">
     <div class="container">
-        <p class="eyebrow-text">Employer profile</p>
-        <h1>{{ employer_user.profile.display_name }}</h1>
-        <p class="page-hero-copy">{{ employer_user.profile.company_description }}</p>
-        <div class="meta-cluster">
-            {% if employer_user.profile.location %}<span>{{ employer_user.profile.location }}</span>{% endif %}
-            {% if employer_user.profile.contact_email %}<span>{{ employer_user.profile.contact_email }}</span>{% endif %}
-            {% if employer_user.profile.website %}<span><a href="{{ employer_user.profile.website }}" target="_blank" rel="noopener">Website</a></span>{% endif %}
+        <div class="detail-banner-content">
+            <div>
+                <p class="eyebrow-text text-white-50">Employer profile</p>
+                <h1 class="text-white">{{ employer_user.profile.display_name }}</h1>
+                <p class="page-hero-copy text-white-50">{{ employer_user.profile.company_description }}</p>
+                <div class="banner-badges">
+                    {% if employer_user.profile.location %}<span>{{ employer_user.profile.location }}</span>{% endif %}
+                    {% if employer_user.profile.contact_email %}<span>{{ employer_user.profile.contact_email }}</span>{% endif %}
+                    {% if employer_user.profile.website %}<span><a href="{{ employer_user.profile.website }}" target="_blank" rel="noopener">Website</a></span>{% endif %}
+                </div>
+            </div>
         </div>
     </div>
 </section>

@@ -3,31 +3,31 @@
 {% block title %}{{ job.title }} | Job Platform{% endblock %}
 
 {% block content %}
-<section class="page-hero page-hero-compact">
+<section class="detail-banner" style="background-image: linear-gradient(130deg, rgba(15, 23, 42, 0.86), rgba(37, 99, 235, 0.68)), url('https://source.unsplash.com/1600x900/?{{ job.get_category_display|urlencode }},office');">
     <div class="container">
-        <div class="job-detail-header">
+        <div class="detail-banner-content">
             <div>
-                <p class="eyebrow-text">{{ job.get_category_display }}</p>
-                <h1>{{ job.title }}</h1>
-                <div class="meta-cluster">
+                <p class="eyebrow-text text-white-50">{{ job.get_category_display }}</p>
+                <h1 class="text-white">{{ job.title }}</h1>
+                <div class="banner-badges">
                     <span>{{ job.company_name }}</span>
                     <span>{{ job.location }}</span>
                     <span>{{ job.get_job_type_display }}</span>
                     <span>{{ job.get_experience_level_display }}</span>
                 </div>
             </div>
-            <div class="job-detail-actions">
+            <div class="detail-banner-actions">
                 {% if request.user.is_authenticated and request.user == job.employer %}
-                    <a href="{% url 'jobs:job-edit' job.slug %}" class="btn btn-brand">Edit Vacancy</a>
-                    <a href="{% url 'jobs:job-applicants' job.slug %}" class="btn btn-outline-dark">View Applicants</a>
+                    <a href="{% url 'jobs:job-edit' job.slug %}" class="btn btn-light">Edit Vacancy</a>
+                    <a href="{% url 'jobs:job-applicants' job.slug %}" class="btn btn-outline-light">View Applicants</a>
                 {% elif request.user.is_authenticated and request.user.profile.is_seeker %}
                     {% if has_applied %}
-                        <button class="btn btn-outline-dark" disabled>Already Applied</button>
+                        <button class="btn btn-outline-light" disabled>Already Applied</button>
                     {% else %}
-                        <a href="{% url 'applications:apply' job.slug %}" class="btn btn-brand">Apply Now</a>
+                        <a href="{% url 'applications:apply' job.slug %}" class="btn btn-light">Apply Now</a>
                     {% endif %}
                 {% else %}
-                    <a href="{% url 'accounts:login' %}?next={% url 'applications:apply' job.slug %}" class="btn btn-brand">Login to Apply</a>
+                    <a href="{% url 'accounts:login' %}?next={% url 'applications:apply' job.slug %}" class="btn btn-light">Login to Apply</a>
                 {% endif %}
             </div>
         </div>

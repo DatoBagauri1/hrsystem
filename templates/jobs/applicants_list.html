@@ -3,15 +3,15 @@
 {% block title %}Applicants for {{ job.title }} | Job Platform{% endblock %}
 
 {% block content %}
-<section class="section-block">
+<section class="dashboard-page section-block">
     <div class="container">
-        <div class="dashboard-top mb-4">
+        <div class="dashboard-hero" style="background-image: linear-gradient(125deg, rgba(15, 23, 42, 0.84), rgba(37, 99, 235, 0.74)), url('https://source.unsplash.com/1600x900/?recruitment,team');">
             <div>
-                <p class="eyebrow-text">Applicants</p>
-                <h1>{{ job.title }}</h1>
-                <p class="page-hero-copy">{{ applications|length }} applicant{{ applications|length|pluralize }} on this page for {{ job.company_name }}.</p>
+                <p class="eyebrow-text text-white-50">Applicants</p>
+                <h1 class="text-white">{{ job.title }}</h1>
+                <p class="page-hero-copy text-white-50 mb-0">{{ applications|length }} applicant{{ applications|length|pluralize }} on this page for {{ job.company_name }}.</p>
             </div>
-            <a href="{% url 'jobs:job-detail' job.slug %}" class="btn btn-outline-dark">Back to Vacancy</a>
+            <a href="{% url 'jobs:job-detail' job.slug %}" class="btn btn-outline-light">Back to Vacancy</a>
         </div>
         <div class="card-panel content-shell">
             {% if applications %}

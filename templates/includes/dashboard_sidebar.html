@@ -1,17 +1,26 @@
-<aside class="dashboard-sidebar card-panel">
-    <p class="eyebrow-text">{{ request.user.profile.get_role_display }}</p>
-    <h3 class="sidebar-title">{{ request.user.profile.display_name }}</h3>
-    <div class="sidebar-links">
+<aside class="dashboard-sidebar">
+    <div class="dashboard-sidebar-card" style="background-image: linear-gradient(155deg, rgba(15, 23, 42, 0.84), rgba(37, 99, 235, 0.62)), url('https://source.unsplash.com/800x600/?workspace,team');">
+        <p class="eyebrow-text text-white-50">{{ request.user.profile.get_role_display }}</p>
+        <h3 class="sidebar-title text-white">{{ request.user.profile.display_name }}</h3>
+        <p class="sidebar-copy">
+            {% if request.user.profile.is_employer %}
+                Review applicants faster, publish sharper roles, and keep your hiring pipeline visible.
+            {% else %}
+                Stay on top of submissions, strengthen your profile, and move through roles with confidence.
+            {% endif %}
+        </p>
+    </div>
+    <div class="sidebar-links card-panel">
         {% if request.user.profile.is_employer %}
             <a class="sidebar-link {% if current_section == 'dashboard' %}active{% endif %}" href="{% url 'accounts:employer-dashboard' %}">Overview</a>
             <a class="sidebar-link {% if current_section == 'jobs' %}active{% endif %}" href="{% url 'jobs:my-jobs' %}">My Vacancies</a>
             <a class="sidebar-link" href="{% url 'jobs:job-create' %}">Create Vacancy</a>
-            <a class="sidebar-link" href="{% url 'accounts:profile-edit' %}">Company Profile</a>
+            <a class="sidebar-link {% if current_section == 'profile' %}active{% endif %}" href="{% url 'accounts:profile-edit' %}">Company Profile</a>
         {% else %}
             <a class="sidebar-link {% if current_section == 'dashboard' %}active{% endif %}" href="{% url 'accounts:seeker-dashboard' %}">Overview</a>
             <a class="sidebar-link" href="{% url 'jobs:job-list' %}">Browse Jobs</a>
             <a class="sidebar-link {% if current_section == 'applications' %}active{% endif %}" href="{% url 'applications:my-applications' %}">My Applications</a>
-            <a class="sidebar-link" href="{% url 'accounts:profile-edit' %}">Edit Profile</a>
+            <a class="sidebar-link {% if current_section == 'profile' %}active{% endif %}" href="{% url 'accounts:profile-edit' %}">Edit Profile</a>
         {% endif %}
     </div>
 </aside>

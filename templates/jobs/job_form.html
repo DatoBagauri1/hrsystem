@@ -5,40 +5,46 @@
 {% block content %}
 <section class="section-block">
     <div class="container">
-        <div class="form-page-shell card-panel">
-            <div class="section-heading mb-4">
-                <div>
-                    <p class="eyebrow-text">Employer tools</p>
-                    <h1>{{ page_title }}</h1>
+        <div class="form-layout">
+            <div class="form-aside" style="background-image: linear-gradient(160deg, rgba(15, 23, 42, 0.84), rgba(37, 99, 235, 0.62)), url('https://source.unsplash.com/900x1200/?office,hiring');">
+                <p class="eyebrow-text text-white-50">Employer tools</p>
+                <h1 class="text-white">{{ page_title }}</h1>
+                <p class="text-white-50">Create a vacancy page that feels polished, clear, and high-trust for strong candidates.</p>
+                <div class="auth-feature-list">
+                    <span>Premium listing presentation</span>
+                    <span>Clean requirements structure</span>
+                    <span>Fast dashboard management</span>
                 </div>
             </div>
-            <form method="post" novalidate class="form-grid">
-                {% csrf_token %}
-                {% if form.non_field_errors %}
-                    <div class="form-error form-error-block">{{ form.non_field_errors|join:", " }}</div>
-                {% endif %}
-                {% for field in form %}
-                    {% if field.name == 'is_active' %}
-                        <div class="form-check modern-check">
-                            {{ field }}
-                            <label class="form-check-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
-                            {% for error in field.errors %}
-                                <div class="form-error">{{ error }}</div>
-                            {% endfor %}
-                        </div>
-                    {% else %}
-                        {% include "includes/form_field.html" with field=field %}
+            <div class="form-page-shell card-panel">
+                <form method="post" novalidate class="form-grid">
+                    {% csrf_token %}
+                    {% if form.non_field_errors %}
+                        <div class="form-error form-error-block">{{ form.non_field_errors|join:", " }}</div>
                     {% endif %}
-                {% endfor %}
-                <div class="d-flex flex-wrap gap-3">
-                    <button type="submit" class="btn btn-brand btn-lg">Save Vacancy</button>
-                    {% if job %}
-                        <a href="{% url 'jobs:job-detail' job.slug %}" class="btn btn-outline-dark btn-lg">Cancel</a>
-                    {% else %}
-                        <a href="{% url 'jobs:my-jobs' %}" class="btn btn-outline-dark btn-lg">Back</a>
-                    {% endif %}
-                </div>
-            </form>
+                    {% for field in form %}
+                        {% if field.name == 'is_active' %}
+                            <div class="form-check modern-check">
+                                {{ field }}
+                                <label class="form-check-label" for="{{ field.id_for_label }}">{{ field.label }}</label>
+                                {% for error in field.errors %}
+                                    <div class="form-error">{{ error }}</div>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {% include "includes/form_field.html" with field=field %}
+                        {% endif %}
+                    {% endfor %}
+                    <div class="d-flex flex-wrap gap-3">
+                        <button type="submit" class="btn btn-brand btn-lg">Save Vacancy</button>
+                        {% if job %}
+                            <a href="{% url 'jobs:job-detail' job.slug %}" class="btn btn-outline-dark btn-lg">Cancel</a>
+                        {% else %}
+                            <a href="{% url 'jobs:my-jobs' %}" class="btn btn-outline-dark btn-lg">Back</a>
+                        {% endif %}
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 </section>

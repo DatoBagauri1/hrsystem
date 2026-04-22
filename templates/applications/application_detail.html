@@ -3,21 +3,31 @@
 {% block title %}Application Detail | Job Platform{% endblock %}
 
 {% block content %}
+<section class="detail-banner" style="background-image: linear-gradient(130deg, rgba(15, 23, 42, 0.86), rgba(14, 116, 144, 0.68)), url('https://source.unsplash.com/1600x900/?resume,workspace');">
+    <div class="container">
+        <div class="detail-banner-content">
+            <div>
+                <p class="eyebrow-text text-white-50">Application detail</p>
+                <h1 class="text-white">{{ application.job.title }}</h1>
+                <div class="banner-badges">
+                    <span>{{ application.job.company_name }}</span>
+                    <span>Submitted {{ application.created_at|date:"M d, Y" }}</span>
+                    <span>{{ application.get_status_display }}</span>
+                </div>
+            </div>
+            <div class="detail-banner-actions">
+                {% if request.user.profile.is_employer %}
+                    <a href="{% url 'jobs:job-applicants' application.job.slug %}" class="btn btn-outline-light">Back to Applicants</a>
+                {% else %}
+                    <a href="{% url 'applications:my-applications' %}" class="btn btn-outline-light">Back to Applications</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+
 <section class="section-block">
     <div class="container">
-        <div class="dashboard-top mb-4">
-            <div>
-                <p class="eyebrow-text">Application detail</p>
-                <h1>{{ application.job.title }}</h1>
-                <p class="page-hero-copy">{{ application.job.company_name }} - Submitted {{ application.created_at|date:"M d, Y" }}</p>
-            </div>
-            {% if request.user.profile.is_employer %}
-                <a href="{% url 'jobs:job-applicants' application.job.slug %}" class="btn btn-outline-dark">Back to Applicants</a>
-            {% else %}
-                <a href="{% url 'applications:my-applications' %}" class="btn btn-outline-dark">Back to Applications</a>
-            {% endif %}
-        </div>
-
         <div class="row g-4">
             <div class="col-lg-8">
                 <div class="card-panel content-shell mb-4">

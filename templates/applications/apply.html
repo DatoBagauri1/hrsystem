@@ -5,27 +5,32 @@
 {% block content %}
 <section class="section-block">
     <div class="container">
-        <div class="form-page-shell card-panel">
-            <div class="section-heading mb-4">
-                <div>
-                    <p class="eyebrow-text">Application form</p>
-                    <h1>Apply to {{ job.title }}</h1>
-                    <p class="page-hero-copy">{{ job.company_name }} - {{ job.location }}</p>
+        <div class="form-layout">
+            <div class="form-aside" style="background-image: linear-gradient(160deg, rgba(15, 23, 42, 0.84), rgba(14, 116, 144, 0.62)), url('https://source.unsplash.com/900x1200/?coding,workspace');">
+                <p class="eyebrow-text text-white-50">Application form</p>
+                <h1 class="text-white">Apply to {{ job.title }}</h1>
+                <p class="text-white-50">{{ job.company_name }} &middot; {{ job.location }}</p>
+                <div class="auth-feature-list">
+                    <span>Clear submission flow</span>
+                    <span>Premium candidate presentation</span>
+                    <span>Faster employer review</span>
                 </div>
             </div>
-            <form method="post" enctype="multipart/form-data" class="form-grid" novalidate>
-                {% csrf_token %}
-                {% if form.non_field_errors %}
-                    <div class="form-error form-error-block">{{ form.non_field_errors|join:", " }}</div>
-                {% endif %}
-                {% for field in form %}
-                    {% include "includes/form_field.html" with field=field %}
-                {% endfor %}
-                <div class="d-flex flex-wrap gap-3">
-                    <button type="submit" class="btn btn-brand btn-lg">Submit Application</button>
-                    <a href="{% url 'jobs:job-detail' job.slug %}" class="btn btn-outline-dark btn-lg">Cancel</a>
-                </div>
-            </form>
+            <div class="form-page-shell card-panel">
+                <form method="post" enctype="multipart/form-data" class="form-grid" novalidate>
+                    {% csrf_token %}
+                    {% if form.non_field_errors %}
+                        <div class="form-error form-error-block">{{ form.non_field_errors|join:", " }}</div>
+                    {% endif %}
+                    {% for field in form %}
+                        {% include "includes/form_field.html" with field=field %}
+                    {% endfor %}
+                    <div class="d-flex flex-wrap gap-3">
+                        <button type="submit" class="btn btn-brand btn-lg">Submit Application</button>
+                        <a href="{% url 'jobs:job-detail' job.slug %}" class="btn btn-outline-dark btn-lg">Cancel</a>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 </section>

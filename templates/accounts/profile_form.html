@@ -11,13 +11,12 @@
             </div>
             <div class="col-lg-8 col-xl-9">
                 <div class="content-shell card-panel">
-                    <div class="section-heading mb-4">
-                        <div>
-                            <p class="eyebrow-text">Profile settings</p>
-                            <h1>Edit your {{ profile.get_role_display|lower }} profile</h1>
-                        </div>
+                    <div class="form-banner" style="background-image: linear-gradient(135deg, rgba(15, 23, 42, 0.82), rgba(37, 99, 235, 0.66)), url('https://source.unsplash.com/1200x700/?workspace,profile');">
+                        <p class="eyebrow-text text-white-50">Profile settings</p>
+                        <h1 class="text-white">Edit your {{ profile.get_role_display|lower }} profile</h1>
+                        <p class="text-white-50 mb-0">Refine the details employers and candidates will rely on throughout the platform.</p>
                     </div>
-                    <form method="post" enctype="multipart/form-data" class="form-grid" novalidate>
+                    <form method="post" enctype="multipart/form-data" class="form-grid mt-4" novalidate>
                         {% csrf_token %}
                         {% if form.non_field_errors %}
                             <div class="form-error form-error-block">{{ form.non_field_errors|join:", " }}</div>

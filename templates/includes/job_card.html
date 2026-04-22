@@ -1,31 +1,41 @@
 <article class="job-card card-panel">
-    <div class="job-card-top">
-        <div>
-            <p class="eyebrow-text">{{ job.get_category_display }}</p>
-            <h3 class="job-card-title">
-                <a href="{{ job.get_absolute_url }}">{{ job.title }}</a>
-            </h3>
-        </div>
+    <a class="job-card-media" href="{{ job.get_absolute_url }}">
+        <img src="https://source.unsplash.com/800x600/?{{ job.get_category_display|urlencode }},office" alt="{{ job.title }}">
+        <span class="job-card-overlay"></span>
+        <span class="job-card-category">{{ job.get_category_display }}</span>
         {% if job.is_active %}
-            <span class="pill-badge badge-soft-success">Active</span>
+            <span class="pill-badge badge-soft-success job-card-status">Active</span>
         {% else %}
-            <span class="pill-badge badge-soft-secondary">Closed</span>
+            <span class="pill-badge badge-soft-secondary job-card-status">Closed</span>
         {% endif %}
-    </div>
-    <div class="job-meta-grid">
-        <span>{{ job.company_name }}</span>
-        <span>{{ job.location }}</span>
-        <span>{{ job.get_job_type_display }}</span>
-        <span>{{ job.get_experience_level_display }}</span>
-    </div>
-    <p class="job-card-copy">{{ job.description|truncatechars:140 }}</p>
-    <div class="job-card-bottom">
-        <div>
-            <div class="job-salary">{{ job.salary_display }}</div>
-            <small class="text-muted">Posted {{ job.created_at|date:"M d, Y" }}</small>
+    </a>
+    <div class="job-card-body">
+        <div class="job-card-top">
+            <div>
+                <p class="job-company">{{ job.company_name }}</p>
+                <h3 class="job-card-title">
+                    <a href="{{ job.get_absolute_url }}">{{ job.title }}</a>
+                </h3>
+            </div>
         </div>
-        {% if request.user.is_authenticated and request.user == job.employer %}
-            <span class="pill-badge badge-soft-info">{{ job.application_count }} applicants</span>
-        {% endif %}
+        <div class="job-meta-grid">
+            <span>{{ job.location }}</span>
+            <span>{{ job.get_job_type_display }}</span>
+            <span>{{ job.get_experience_level_display }}</span>
+            <span>{{ job.created_at|date:"M d, Y" }}</span>
+        </div>
+        <p class="job-card-copy">{{ job.description|truncatechars:140 }}</p>
+        <div class="job-card-bottom">
+            <div>
+                <div class="job-salary">{{ job.salary_display }}</div>
+                <small class="text-muted">Structured for a polished application experience</small>
+            </div>
+            <div class="job-card-actions">
+                {% if request.user.is_authenticated and request.user == job.employer %}
+                    <span class="pill-badge badge-soft-info">{{ job.application_count }} applicants</span>
+                {% endif %}
+                <a href="{{ job.get_absolute_url }}" class="btn btn-outline-dark btn-sm">View role</a>
+            </div>
+        </div>
     </div>
 </article>

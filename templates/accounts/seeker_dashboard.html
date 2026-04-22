@@ -10,29 +10,34 @@
                 {% include "includes/dashboard_sidebar.html" %}
             </div>
             <div class="col-lg-8 col-xl-9">
-                <div class="dashboard-top">
+                <div class="dashboard-hero" style="background-image: linear-gradient(125deg, rgba(15, 23, 42, 0.84), rgba(14, 116, 144, 0.74)), url('https://source.unsplash.com/1600x900/?coding,career');">
                     <div>
-                        <p class="eyebrow-text">Candidate dashboard</p>
-                        <h1>Track your applications and discover fresh roles.</h1>
+                        <p class="eyebrow-text text-white-50">Candidate dashboard</p>
+                        <h1 class="text-white">Track your applications and discover fresh roles.</h1>
+                        <p class="page-hero-copy text-white-50 mb-0">Stay close to status updates, surface your strongest opportunities, and move with more confidence.</p>
                     </div>
-                    <a href="{% url 'jobs:job-list' %}" class="btn btn-brand">Browse Jobs</a>
+                    <a href="{% url 'jobs:job-list' %}" class="btn btn-light">Browse Jobs</a>
                 </div>
-                <div class="stats-grid">
-                    <div class="stat-card card-panel">
+                <div class="stats-grid premium-stats-grid">
+                    <div class="stat-card card-panel stat-card-primary">
                         <span>Total applications</span>
                         <strong>{{ stats.total_sent }}</strong>
+                        <p>Every role you have submitted so far.</p>
                     </div>
                     <div class="stat-card card-panel">
                         <span>Pending</span>
                         <strong>{{ stats.pending }}</strong>
+                        <p>Waiting on employer feedback.</p>
                     </div>
                     <div class="stat-card card-panel">
                         <span>Shortlisted</span>
                         <strong>{{ stats.shortlisted }}</strong>
+                        <p>Opportunities gaining momentum.</p>
                     </div>
                     <div class="stat-card card-panel">
                         <span>Accepted</span>
                         <strong>{{ stats.accepted }}</strong>
+                        <p>Strong outcomes across your journey.</p>
                     </div>
                 </div>
                 <div class="card-panel content-shell mt-4">

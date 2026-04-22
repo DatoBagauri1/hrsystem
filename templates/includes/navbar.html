@@ -1,50 +1,71 @@
-<nav class="navbar navbar-expand-lg main-navbar sticky-top">
+<nav class="navbar navbar-expand-lg premium-navbar">
     <div class="container">
-        <a class="navbar-brand brand-mark" href="{% url 'core:home' %}">JobPlatform</a>
-        <button class="navbar-toggler nav-toggle" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="mainNavbar">
-            <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-2">
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'jobs:job-list' %}">Browse Jobs</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'core:about' %}">About</a>
-                </li>
-                {% if request.user.is_authenticated %}
+        <div class="nav-surface">
+            <a class="navbar-brand brand-mark" href="{% url 'core:home' %}">
+                <span class="brand-mark-icon">JP</span>
+                <span class="brand-mark-copy">
+                    <strong>JobPlatform</strong>
+                    <small>Premium Hiring OS</small>
+                </span>
+            </a>
+            <button class="navbar-toggler nav-toggle" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar" aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="mainNavbar">
+                <ul class="navbar-nav nav-links ms-auto align-items-lg-center gap-lg-2">
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'accounts:dashboard-redirect' %}">Dashboard</a>
+                        <a class="nav-link" href="{% url 'jobs:job-list' %}">Browse Jobs</a>
                     </li>
-                    {% if request.user.profile.is_employer %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'core:about' %}">About</a>
+                    </li>
+                    {% if request.user.is_authenticated %}
                         <li class="nav-item">
-                            <a class="btn btn-brand btn-sm ms-lg-2" href="{% url 'jobs:job-create' %}">Post a Job</a>
+                            <a class="nav-link" href="{% url 'accounts:dashboard-redirect' %}">Dashboard</a>
+                        </li>
+                        <li class="nav-item d-none d-xl-flex">
+                            <span class="navbar-pill">
+                                {% if request.user.profile.is_employer %}
+                                    Employer workspace
+                                {% else %}
+                                    Candidate workspace
+                                {% endif %}
+                            </span>
+                        </li>
+                        {% if request.user.profile.is_employer %}
+                            <li class="nav-item">
+                                <a class="btn btn-brand btn-sm ms-lg-2" href="{% url 'jobs:job-create' %}">Post a Job</a>
+                            </li>
+                        {% else %}
+                            <li class="nav-item">
+                                <a class="btn btn-brand btn-sm ms-lg-2" href="{% url 'applications:my-applications' %}">My Applications</a>
+                            </li>
+                        {% endif %}
+                        <li class="nav-item dropdown ms-lg-2">
+                            <button class="btn nav-user dropdown-toggle" data-bs-toggle="dropdown" type="button">
+                                <span class="nav-user-avatar">{{ request.user.profile.display_name|slice:":1"|upper }}</span>
+                                <span class="nav-user-copy">
+                                    <strong>{{ request.user.profile.display_name }}</strong>
+                                    <small>{{ request.user.profile.get_role_display }}</small>
+                                </span>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end premium-menu">
+                                <li><a class="dropdown-item" href="{% url 'accounts:profile-edit' %}">Edit Profile</a></li>
+                                <li><a class="dropdown-item" href="{% url 'accounts:dashboard-redirect' %}">Open Dashboard</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item text-danger" href="{% url 'accounts:logout' %}">Logout</a></li>
+                            </ul>
                         </li>
                     {% else %}
                         <li class="nav-item">
-                            <a class="btn btn-brand btn-sm ms-lg-2" href="{% url 'applications:my-applications' %}">My Applications</a>
+                            <a class="nav-link" href="{% url 'accounts:login' %}">Login</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="btn btn-brand btn-sm ms-lg-2" href="{% url 'accounts:register' %}">Create Account</a>
                         </li>
                     {% endif %}
-                    <li class="nav-item dropdown ms-lg-2">
-                        <button class="btn btn-light nav-user dropdown-toggle" data-bs-toggle="dropdown" type="button">
-                            {{ request.user.profile.display_name }}
-                        </button>
-                        <ul class="dropdown-menu dropdown-menu-end border-0 shadow-sm">
-                            <li><a class="dropdown-item" href="{% url 'accounts:profile-edit' %}">Edit Profile</a></li>
-                            <li><a class="dropdown-item" href="{% url 'accounts:dashboard-redirect' %}">Open Dashboard</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item text-danger" href="{% url 'accounts:logout' %}">Logout</a></li>
-                        </ul>
-                    </li>
-                {% else %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'accounts:login' %}">Login</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="btn btn-brand btn-sm ms-lg-2" href="{% url 'accounts:register' %}">Create Account</a>
-                    </li>
-                {% endif %}
-            </ul>
+                </ul>
+            </div>
         </div>
     </div>
 </nav>

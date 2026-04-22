@@ -1,29 +1,57 @@
 <footer class="site-footer">
     <div class="container">
-        <div class="row g-4 align-items-start">
-            <div class="col-lg-5">
-                <h3 class="footer-title">JobPlatform</h3>
+        <div class="footer-cta" style="background-image: linear-gradient(135deg, rgba(15, 23, 42, 0.82), rgba(37, 99, 235, 0.72)), url('https://source.unsplash.com/1600x900/?teamwork,office');">
+            <div>
+                <p class="eyebrow-text text-white-50 mb-2">Modern hiring platform</p>
+                <h2>Give your recruiting workflow the feel of a polished product.</h2>
+                <p>Elegant job discovery, cleaner application review, and a dashboard experience that feels built for momentum.</p>
+            </div>
+            <div class="footer-cta-actions">
+                <a href="{% url 'jobs:job-list' %}" class="btn btn-light btn-lg">Explore Roles</a>
+                {% if request.user.is_authenticated and request.user.profile.is_employer %}
+                    <a href="{% url 'jobs:job-create' %}" class="btn btn-outline-light btn-lg">Post Vacancy</a>
+                {% elif request.user.is_authenticated %}
+                    <a href="{% url 'applications:my-applications' %}" class="btn btn-outline-light btn-lg">My Applications</a>
+                {% else %}
+                    <a href="{% url 'accounts:register' %}" class="btn btn-outline-light btn-lg">Create Account</a>
+                {% endif %}
+            </div>
+        </div>
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <a class="footer-logo" href="{% url 'core:home' %}">
+                    <span class="brand-mark-icon">JP</span>
+                    <span>
+                        <strong>JobPlatform</strong>
+                        <small>Premium SaaS job board</small>
+                    </span>
+                </a>
                 <p class="footer-copy">
-                    A polished employment platform built with traditional Django, designed for real hiring workflows and easy future redesigns.
+                    A modern Django-powered workspace for employers, candidates, and beautifully structured hiring journeys.
                 </p>
             </div>
-            <div class="col-sm-6 col-lg-3">
-                <h4 class="footer-heading">Explore</h4>
-                <ul class="footer-links">
-                    <li><a href="{% url 'core:home' %}">Home</a></li>
-                    <li><a href="{% url 'jobs:job-list' %}">Jobs</a></li>
-                    <li><a href="{% url 'core:about' %}">About</a></li>
-                </ul>
+            <div>
+                <h4 class="footer-heading">Platform</h4>
+                <a href="{% url 'core:home' %}">Home</a>
+                <a href="{% url 'jobs:job-list' %}">Browse jobs</a>
+                <a href="{% url 'core:about' %}">About</a>
             </div>
-            <div class="col-sm-6 col-lg-4">
-                <h4 class="footer-heading">For teams and candidates</h4>
-                <p class="footer-copy">
-                    Employers can manage vacancies and applications from one dashboard, while seekers get a streamlined application history and profile workflow.
-                </p>
+            <div>
+                <h4 class="footer-heading">Experience</h4>
+                <span>Premium card system</span>
+                <span>Responsive dashboards</span>
+                <span>Modern form flows</span>
+            </div>
+            <div>
+                <h4 class="footer-heading">Workflows</h4>
+                <span>Employer pipelines</span>
+                <span>Application tracking</span>
+                <span>Role publishing</span>
             </div>
         </div>
         <div class="footer-bottom">
-            <span>&copy; {% now "Y" %} JobPlatform. Built with Django templates, forms, views, and models.</span>
+            <span>&copy; {% now "Y" %} JobPlatform</span>
+            <span>Crafted for clean hiring workflows and premium job discovery.</span>
         </div>
     </div>
 </footer>
